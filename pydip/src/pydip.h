@@ -46,6 +46,13 @@ namespace py = pybind11;
  *
  */
 
+namespace dip {
+   namespace detail {
+      struct ScalarImage {
+         dip::Image image;
+      };
+   }
+}
 
 // Declaration of functions in other files in the interface
 void init_image( py::module& m );

@@ -577,6 +577,13 @@ void init_image( py::module& m ) {
    img.def( "__lt__", []( dip::Image const& lhs, py::object const& rhs ) { return dip::Lesser( lhs, ImageOrPixel( rhs )); }, py::is_operator() );
    img.def( "__le__", []( dip::Image const& lhs, py::object const& rhs ) { return dip::NotGreater( lhs, ImageOrPixel( rhs )); }, py::is_operator() );
 
+   auto si = py::class_< dip::detail::ScalarImage >( m, "_ScalarImage", "A thin wrapper class for scalar images" );
+   // Constructor that takes a Python raw buffer
+   si.def( py::init( []( py::buffer& buf ) { return dip::detail::ScalarImage{ BufferToImage( buf, false ) }; } ) );
+   // If given a diplib Image, we take it as is without forcing it to be scalar.
+   si.def( py::init( []( dip::Image& img ) { return dip::detail::ScalarImage{ img }; } ) );
+   py::implicitly_convertible< py::buffer, dip::detail::ScalarImage >();
+
    // Some new functions useful in Python
    m.def( "Create0D", []( dip::Image::Pixel const& in ) -> dip::Image {
              return dip::Image( in );

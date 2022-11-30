@@ -346,9 +346,13 @@ void init_morphology( py::module& m ) {
    m.def( "BinaryAreaClosing", py::overload_cast< dip::Image const&, dip::Image&, dip::uint, dip::uint, dip::String const& >( &dip::BinaryAreaClosing ),
           "in"_a, py::kw_only(), "out"_a, "filterSize"_a = 50, "connectivity"_a = 0, "edgeCondition"_a = dip::S::BACKGROUND );
 
-   m.def( "EuclideanSkeleton", py::overload_cast< dip::Image const&, dip::String const&, dip::String const& >( &dip::EuclideanSkeleton ),
+   m.def( "EuclideanSkeleton",
+          [](dip::detail::ScalarImage const& in, dip::String const& endPixelCondition, dip::String const& edgeCondition )
+          { return dip::EuclideanSkeleton(in.image, endPixelCondition, edgeCondition); },
           "in"_a, "endPixelCondition"_a = dip::S::NATURAL, "edgeCondition"_a = dip::S::BACKGROUND );
-   m.def( "EuclideanSkeleton", py::overload_cast< dip::Image const&, dip::Image&, dip::String const&, dip::String const& >( &dip::EuclideanSkeleton ),
+   m.def( "EuclideanSkeleton",
+          [](dip::detail::ScalarImage const& in, dip::Image& out, dip::String const& endPixelCondition, dip::String const& edgeCondition )
+          { return dip::EuclideanSkeleton(in.image, out, endPixelCondition, edgeCondition); },
           "in"_a, py::kw_only(), "out"_a, "endPixelCondition"_a = dip::S::NATURAL, "edgeCondition"_a = dip::S::BACKGROUND );
 
    m.def( "CountNeighbors", py::overload_cast< dip::Image const&, dip::uint, dip::String const&, dip::String const& >( &dip::CountNeighbors ),
