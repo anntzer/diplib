@@ -48,7 +48,3 @@ C:\hostedtoolcache\windows\Python\%PYTHON313%\x64\python.exe -m pip install setu
 cmake .. -A x64 -DPython_EXECUTABLE=C:\hostedtoolcache\windows\Python\%PYTHON313%\x64\python.exe
 cmake --build . --target bdist_wheel --config Release
 copy pydip\Release\staging\dist\*.whl wheelhouse
-
-REM Upload to pypi.org
-cd wheelhouse
-@python -m twine upload *.whl -u __token__ -p %PYPI_TOKEN%

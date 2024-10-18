@@ -26,5 +26,4 @@ for v in ${PYTHON_VERSIONS[@]}; do
    delocate-wheel -e libjvm -w wheelhouse/ -v pydip/staging/dist/*.whl
 done;
 
-# Upload to pypi.org
-python3 -m twine upload -u __token__ -p $PYPI_TOKEN wheelhouse/*.whl
+zip -r wheels wheelhouse
