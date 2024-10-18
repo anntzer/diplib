@@ -40,6 +40,12 @@ jobs:
           HOMEBREW_DIR: /usr/local
           BUILD_THREADS: 3
 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wheel-linux
+          path: build/wheels.zip
+        if: ${{ always() }}
+
   deploy_macos_aarch64:
     runs-on: macos-14
 
@@ -62,6 +68,12 @@ jobs:
           HOMEBREW_DIR: /opt/homebrew
           BUILD_THREADS: 3
 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wheel-macos
+          path: build/wheels.zip
+        if: ${{ always() }}
+
   deploy_windows:
     runs-on: windows-latest
 
@@ -78,3 +90,9 @@ jobs:
         run: tools/build/deploy_windows.bat
         env:
           PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+
+      # - uses: actions/upload-artifact@v4
+      #   with:
+      #     name: wheel-windows
+      #     path: build/wheels.zip
+      #   if: ${{ always() }}

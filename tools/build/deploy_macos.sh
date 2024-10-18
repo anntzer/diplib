@@ -2,7 +2,8 @@
 # set $PYPI_TOKEN to the PyPI token for the diplib project
 
 # Setup
-export PYTHON_VERSIONS=(3.10 3.11 3.12 3.13)
+export PYTHON_VERSIONS=(3.14)
+brew update
 for v in ${PYTHON_VERSIONS[@]}; do
    brew install python@$v
 done;
@@ -26,5 +27,4 @@ for v in ${PYTHON_VERSIONS[@]}; do
    delocate-wheel -e libjvm -w wheelhouse/ -v pydip/staging/dist/*.whl
 done;
 
-# Upload to pypi.org
-python3 -m twine upload -u __token__ -p $PYPI_TOKEN wheelhouse/*.whl
+zip -r wheels wheelhouse
