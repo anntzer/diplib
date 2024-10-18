@@ -6,6 +6,7 @@ FOR /F "tokens=*" %%g IN ('dir C:\hostedtoolcache\windows\Python\3.9.* /B') do (
 FOR /F "tokens=*" %%g IN ('dir C:\hostedtoolcache\windows\Python\3.10.* /B') do (SET PYTHON310=%%g)
 FOR /F "tokens=*" %%g IN ('dir C:\hostedtoolcache\windows\Python\3.11.* /B') do (SET PYTHON311=%%g)
 FOR /F "tokens=*" %%g IN ('dir C:\hostedtoolcache\windows\Python\3.12.* /B') do (SET PYTHON312=%%g)
+FOR /F "tokens=*" %%g IN ('dir C:\hostedtoolcache\windows\Python\3.13.* /B') do (SET PYTHON313=%%g)
 
 REM Setup
 mkdir build
@@ -49,6 +50,8 @@ cmake .. -A x64 -DPython_EXECUTABLE=C:\hostedtoolcache\windows\Python\%PYTHON312
 cmake --build . --target bdist_wheel --config Release
 copy pydip\Release\staging\dist\*.whl wheelhouse
 
-REM Upload to pypi.org
-cd wheelhouse
-@python -m twine upload *.whl -u __token__ -p %PYPI_TOKEN%
+REM Python 3.13
+C:\hostedtoolcache\windows\Python\%PYTHON312%\x64\python.exe -m pip install setuptools wheel build
+cmake .. -A x64 -DPython_EXECUTABLE=C:\hostedtoolcache\windows\Python\%PYTHON312%\x64\python.exe
+cmake --build . --target bdist_wheel --config Release
+copy pydip\Release\staging\dist\*.whl wheelhouse
